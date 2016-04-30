@@ -3,16 +3,28 @@
  */
 
 var express = require('express'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    bodyParse = require('body-parser');
 
 var db = mongoose.connect('mongodb://localhost/bookAPI');
 var Book = require('./Models/bookModel');
 
 var app = express();
 
+var port = process.env.PORT || 3000;
+app.use(bodyParse.urlencoded({extended:true}));
+app.use(bodyParse.json());
+
 var bookRouter = express.Router();
 
 bookRouter.route('/Books')
+    .post(function (req,res) {
+        var book = new Book(req.body);
+        book.save();
+        res.status(201).send(book);
+        
+    })
+    
     .get(function (req, res) {
 
         var query = {};
@@ -40,7 +52,7 @@ bookRouter.route('/Books/:bookId')
             if(err){
                 res.status(500).send(err);
             }else {
-                res.json(book);
+                res.json(books);
             }
         })
     }
@@ -49,7 +61,7 @@ bookRouter.route('/Books/:bookId')
 app.use('/api',bookRouter);
 
 
-var port = process.env.PORT || 3000;
+
 
 app.get('/',function (req,res) {
     res.send("Welcome to my API SIR");
