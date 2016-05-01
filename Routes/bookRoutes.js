@@ -39,6 +39,23 @@ var routes = function(Book){
                 else
                     res.json(book);
             });
+        })
+        .put(function (req,res) {
+
+            Book.findById(
+                req.params.bookId, function(err,book){
+                    if(err)
+                        res.status(500).send(err);
+                    else
+                        book.title = req.body.title;
+                        book.author = req.body.author;
+                        book.read = req.body.read;
+                        book.genre = req.body.genre;
+                        book.save();
+                        res.json(book);
+                }
+            );
+
         });
     return bookRouter;
 };
