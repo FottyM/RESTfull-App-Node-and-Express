@@ -20,7 +20,6 @@ var bookController = function (Book) {
 
     };
     
-    
     var get = function(req,res){
 
         var query = {};

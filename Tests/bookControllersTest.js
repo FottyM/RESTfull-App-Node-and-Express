@@ -1,5 +1,7 @@
 var should = require('should'),
-    sinon = require('sinon');
+    sinon = require('sinon'),
+    env = require('gulp-env'),
+    supertes = require('supertest');
 
 
 describe('Books controller test: ', function () {
@@ -22,7 +24,6 @@ describe('Books controller test: ', function () {
             };
             
             var bookController = require('../Controllers/bookControllers')(Book);
-            
             bookController.post(req,res);
             res.status.calledWith(400).should.equal(true,"bad status " + res.status.args[0][0]);
             res.send.calledWith('Title is required').should.equal(true);
