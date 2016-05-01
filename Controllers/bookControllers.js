@@ -8,7 +8,8 @@ var bookController = function (Book) {
 
         var book = new Book(req.body);
         book.save();
-        res.status(201).send(book);
+        res.status(201);
+        res.send(book);
 
     };
     
